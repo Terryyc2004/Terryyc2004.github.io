@@ -1,0 +1,165 @@
+# If a option has many sub-options, and it's optional, then give it a `enable` sub-option. If not optional, don't use `enable`.
+
+menu:
+  - name: home
+    link: /
+    icon: <i class="bi bi-house"></i>
+  - name: archives
+    link: archives/
+    icon: <i class="bi bi-archive"></i>
+  - name: categories
+    link: categories/
+    icon: <i class="bi bi-list-nested"></i>
+  - name: tags
+    link: tags/
+    icon: <i class="bi bi-tags"></i>
+  # - name: about
+  #   link: about/
+  #   icon: <i class="bi bi-person-bounding-box"></i>
+
+# Transform your image to those favicons in <https://realfavicongenerator.net/>.
+favicon:
+  appleTouchIcon: favicons/apple-touch-icon.png
+  androidChromeLarge: favicons/android-chrome-192x192.png
+  medium: favicons/favicon-32x32.png
+  small: favicons/favicon-16x16.png
+  safariPinnedTab: favicons/safari-pinned-tab.svg
+  androidManifest: favicons/site.webmanifest
+  msBrowserConfig: favicons/browserconfig.xml
+  fallback: favicon.ico
+
+# Must be an array.
+keywords:
+  - Life
+  - ARIA
+  - Hikaru
+
+# Available options are `by`, `by-sa`, `by-nd`, `by-nc`, `by-nc-sa`, `by-nc-nd`.
+#
+# See <https://creativecommons.org/licenses/>.
+creativeCommons:
+
+# Available options are `atom-one-dark`, `atom-one-light`,
+# `tomorrow-night-blue`, `tomorrow-night-bright`, `solarized-dark`,
+# `solarized-light`.
+highlight: atom-one-dark
+
+# Pinned message in all pages and posts.
+pinnedMessage:
+
+# Custom info in footer.
+customInfo: 托管于 <i class="bi bi-github"></i><a href="https://pages.github.com/" target="_blank" rel="noreferrer noopener">GitHub Pages</a>
+
+# Select all your webfont in a CDN like Google Fonts, and then copy `href`
+# property in the `<link>` tag and paste here, for example,
+# `link: //fonts.googleapis.com/css?family=Lato|Roboto+Condensed|Skranji|Ubuntu|Ubuntu+Mono`,
+# then set different fonts to different elements here.
+customFont:
+  enable: false
+  link:
+  all:
+  title:
+  subtitle:
+  main:
+  code:
+
+avatar: images/avatar.webp
+
+logo: images/logo.webp
+
+# Theme color.
+#
+# Quote is needed here because `#` means comment in YAML.
+color: "#33363b"
+
+googleVerification:
+
+since:
+
+search: true
+
+# Available options are `left`, `right`, leave it empty to hide sidebar.
+sidebar: left
+
+# Flipping card animation.
+animate: false
+
+busuanzi: true
+
+# If you want ARIA to generate excerpt, set the length of chars you want here.
+# Leave it empty if you don't need that.
+#
+# It is recommended to place `<!--more-->` to where you want to split excerpt
+# from content instead of use this option.
+#
+# Example: `autoExcerpt: 200`, use first 200 chars in post content as excerpt.
+autoExcerpt:
+
+# If you want to use MathJax, first set a CDN link like `cdn: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-MML-AM_CHTML`,
+# then set `enable: true`, and also set `mathjax: true` to front-matter of the
+# page you want to use MathJax.
+#
+# You can also set `global: true` here to load MathJax in all pages, but it's
+# not recommended because MathJax sources are too large to load, that's why you
+# must set a CDN link here.
+mathjax:
+  enable: false
+  global:
+  cdn:
+
+# Only change this if you know what you are doing.
+libCDN:
+  enable: false
+  bootstrapIcons:
+    css:
+    woff2:
+    woff:
+  normalize:
+  busuanzi:
+  highlight:
+  clipboard:
+  # Don't use camelCase for hljs theme CSS files, because they need to keep the
+  # same as highlight options.
+  atom-one-dark:
+  atom-one-light:
+  solarized-dark:
+  solarized-light:
+
+social:
+  enable: true
+  links:
+    - name: E-Mail
+      link: mailto:youremail@youremailhost
+      icon: <i class="bi bi-envelope"></i>
+    - name: GitHub
+      link: https://github.com/
+      icon: <i class="bi bi-github"></i>
+
+blogroll:
+  enable: true
+  links:
+    - name: GitHub
+      link: https://github.com/
+      icon: <i class="bi bi-link-45deg"></i>
+    - name: MDN
+      link: https://developer.mozilla.org/
+      icon: <i class="bi bi-link-45deg"></i>
+    - name: Nunjucks
+      link: https://mozilla.github.io/nunjucks/
+      icon: <i class="bi bi-link-45deg"></i>
+
+comment:
+  enable: false
+  issue:
+    enable: false
+    user:
+    repo:
+    perPage: 10
+  disqusShortName:
+
+reward:
+  enable: false
+  message: 坚持原创技术分享，您的支持是我前进的动力！
+  # weChatPayQRCode: images/WeChatPay.png
+  # aliPayQRCode: images/AliPay.png
+  # bitCoinQRCode: images/BitCoin.png

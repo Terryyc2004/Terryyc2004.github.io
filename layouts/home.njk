@@ -1,0 +1,114 @@
+{% extends "includes/layout.njk" %}
+
+{% block css %}
+{% include "includes/highlight-css.njk" %}
+{% endblock %}
+
+{% block js %}
+{% include "includes/clipboard-js.njk" %}
+{% include "includes/highlight-js.njk" %}
+{%- if themeConfig.mathjax.cdn and themeConfig.mathjax.enable %}
+{%- if themeConfig.mathjax.global or file.mathjax %}
+{% include "includes/mathjax-js.njk" %}
+{%- endif %}
+{%- endif %}
+{% endblock %}
+
+{% block title %}{{ siteConfig.title }}{% if siteConfig.subtitle %} - {{ siteConfig.subtitle }}{% endif %}{% endblock %}
+
+{% block content %}
+{%- if themeConfig.pinnedMessage %}
+{% include "includes/pinned-message.njk" %}
+{%- endif %}
+<div id="home" class="home page">
+  {%- if file.posts and file.posts.length > 0 %}
+  {%- for post in file.posts %}
+  <article class="article post card{% if themeConfig.animate %} animate{% endif %}" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="{{ getURL(post.docPath) }}">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        {%- if post.author %}
+        <meta itemprop="name" content="{{ post.author }}">
+        {%- else %}
+        <meta itemprop="name" content="{{ siteConfig.author }}">
+        <meta itemprop="description" content="{{ siteConfig.description }}">
+        <meta itemprop="image" content="{{ getPath(themeConfig.avatar) }}">
+        {%- endif %}
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="{{ siteConfig.title }}">
+      </span>
+    </div>
+    <header class="post-header">
+      <div class="post-title" itemprop="name headline">
+        <a class="title-link" href="{{ getPath(post.docPath) }}" itemprop="url">{{ post.title }}</a>
+      </div>
+      <div class="post-meta">
+        {%- if post.created %}
+        <div class="post-created meta-block">
+          <i class="bi bi-calendar-check"></i><span><time class="post-full-datetime" title="post-created" itemprop="dateCreated datePublished" datetime="{{ post.created.toISOString() }}">{{ formatDateTime(post.created) }}</time></span>
+        </div>
+        {%- endif %}
+        {%- if post.updated %}
+        <div class="post-updated meta-block">
+          <i class="bi bi-calendar-plus"></i><span><time class="post-full-datetime" title="post-updated" itemprop="dateUpdated" datetime="{{ post.updated.toISOString() }}">{{ formatDateTime(post.updated) }}</time></span>
+        </div>
+        {%- endif %}
+        {%- if post.author or post.email %}
+        <div class="post-author meta-block">
+          {%- if post.author and post.email %}
+          <i class="bi bi-pencil-square"></i><a href="mailto:{{ post.email }}">{{ post.author }}</a>
+          {%- elseif post.email %}
+          <i class="bi bi-pencil-square"></i><a href="mailto:{{ post.email }}">{{ post.email }}</a>
+          {%- elseif post.author %}
+          <i class="bi bi-pencil-square"></i><span>{{ post.author }}</span>
+          {%- endif %}
+        </div>
+        {%- endif %}
+        {%- if post.categories and post.categories.length %}
+        <div class="post-categories meta-block">
+          {% for cat in post.categories %}{% if loop.first %}<i class="bi bi-folder2-open"></i>{% else %}<i class="bi bi-chevron-right"></i>{% endif %}<span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="{{ getPath(cat.docPath) }}" itemprop="url" rel="index"><span itemprop="name">{{ cat.name }}</span></a></span>{% endfor %}
+        </div>
+        {%- endif %}
+        {%- if themeConfig.comment.enable and post.comment !== false %}
+        {%- if themeConfig.comment.issue.enable %}
+        <div class="post-comment-count meta-block">
+          <i class="bi bi-chat-dots"></i><span><a href="{{ getPath(post.docPath) }}#comment-results" itemprop="discussionUrl"><span class="post-comment-count comment-count" data-comment-identifier="{{ post.title }}" itemprop="commentCount">{{ __("comment.read") }}</span></a></span>
+        </div>
+        {%- elseif themeConfig.comment.disqusShortName %}
+        <div class="post-comment-count meta-block">
+          <i class="bi bi-chat-dots"></i><span><a href="{{ getPath(post.docPath) }}#disqus_thread" itemprop="discussionUrl"><span class="post-comment-count disqus-comment-count" data-disqus-identifier="{{ getPath(post.docPath) }}" itemprop="commentCount"></span></a></span>
+        </div>
+        {%- endif %}
+        {%- endif %}
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      {%- if post.excerpt  %}
+      {{ post.excerpt }}
+      {%- elseif post.description %}
+      {{ post.description }}
+      {%- elseif themeConfig.autoExcerpt %}
+      <p>{{ (post.content | striptags).substring(0, themeConfig.autoExcerpt) }}{{ __("ellipsis") }}</p>
+      {%- else %}
+      {{ post.content }}
+      {%- endif %}
+    </main>
+    <footer class="post-footer">
+      {%- if post.tags and post.tags.length %}
+      <div class="post-tags">
+        {% for tag in post.tags %}<a class="post-tag button" href="{{ getPath(tag.docPath) }}" rel="tag"><i class="bi bi-tag"></i>{{ tag.name }}</a>{% endfor %}
+      </div>
+      {%- endif %}
+    </footer>
+  </article>
+  {%- endfor %}
+  {%- endif %}
+  {%- if file.pages and file.pages.length > 0 %}
+  {% include "includes/pagination.njk" %}
+  {%- endif %}
+  {%- if themeConfig.comment.enable %}
+  {% include "includes/comment.njk" %}
+  {%- endif %}
+</div>
+{% endblock %}

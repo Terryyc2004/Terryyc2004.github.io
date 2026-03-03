@@ -1,0 +1,68 @@
+{% extends "includes/layout.njk" %}
+
+{% block js %}
+{%- if themeConfig.search %}
+<script defer type="text/javascript" src="{{ getPath("js/search.js") }}"></script>
+<script type="text/javascript">
+  documentReady(() => {
+    {%- if isArray(siteConfig.search.path) %}
+    const searchPaths = [{% for p in siteConfig.search.path %}"{{ getPath(p) }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+    {%- else %}
+    const searchPaths = ["{{ getPath(siteConfig.search.path) }}"];
+    {%- endif %}
+    lazyLoadWhenInside(document.getElementById("search-result"), () => {
+      loadSearch({
+        "paths": searchPaths,
+        "queryString": window.location.search,
+        "containerID": "search-result",
+        "noResultText": "{{ __("searchResult.none") }}",
+        "failText": "{{ __("searchResult.fail") }}"
+      });
+    });
+  });
+</script>
+{%- endif %}
+{% endblock %}
+
+{% block title %}{{ __(file.title) }} - {{ siteConfig.title }}{% endblock %}
+
+{% block content %}
+{%- if themeConfig.pinnedMessage %}
+{% include "includes/pinned-message.njk" %}
+{%- endif %}
+<div id="page" class="page">
+  <article class="article post card{% if themeConfig.animate %} animate{% endif %}">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="{{ getURL(docPath) }}">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="{{ siteConfig.author }}">
+        <meta itemprop="description" content="{{ siteConfig.description }}">
+        <meta itemprop="image" content="{{ getPath(themeConfig.avatar) }}">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="{{ siteConfig.title }}">
+      </span>
+    </div>
+    <header class="post-header">
+      <div class="post-title" itemprop="name headline">
+        <a class="title-link" href="{{ getPath(file.docPath) }}" itemprop="url">{{ __(file.title) }}</a>
+      </div>
+      <div class="post-meta">
+        {#- There should be no time for search result page. #}
+      </div>
+    </header>
+    <main class="post-main">
+      <div class="search-result" id="search-result">
+        <div class="sk-wave" id="sk-wave">
+          <div class="sk-rect sk-rect1"></div>
+          <div class="sk-rect sk-rect2"></div>
+          <div class="sk-rect sk-rect3"></div>
+          <div class="sk-rect sk-rect4"></div>
+          <div class="sk-rect sk-rect5"></div>
+        </div>
+      </div>
+    </main>
+    <footer class="post-footer"></footer>
+  </article>
+</div>
+{% endblock %}

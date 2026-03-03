@@ -1,0 +1,34 @@
+{%- import "includes/utils.njk" as utils with context -%}
+{% extends "includes/layout.njk" %}
+
+{% block title %}{{ __(file.title) }} - {{ siteConfig.title }}{% endblock %}
+
+{% block content %}
+{%- if themeConfig.pinnedMessage %}
+{% include "includes/pinned-message.njk" %}
+{%- endif %}
+<div id="categories" class="categories page">
+  <article class="article post card{% if themeConfig.animate %} animate{% endif %}">
+    <header class="post-header">
+      <div class="post-title" itemprop="name headline">
+        <a class="title-link" href="{{ getPath(file.docPath) }}" itemprop="url">{{ __(file.title) }}</a>
+      </div>
+    </header>
+    <main class="post-main">
+      <div class="page-counter">
+        {%- if site.categoriesLength > 1 %}
+        {{ __("categoryCount.more", site.categoriesLength) }}
+        {%- elseif site.categoriesLength === 1 %}
+        {{ __("categoryCount.one", site.categoriesLength) }}
+        {%- else %}
+        {{ __("categoryCount.none") }}
+        {%- endif %}
+      </div>
+      <div class="categories-list">
+        {{- utils.listCategory(site.categories) }}
+      </div>
+    </main>
+    <footer class="post-footer"></footer>
+  </article>
+</div>
+{% endblock %}

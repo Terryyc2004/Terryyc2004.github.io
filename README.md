@@ -1,71 +1,438 @@
-# 手机常见 rom 记录
+ARIA
+====
 
-内容更新：2026.2.23
-记录自己在刷 Redmi Note 9 Pro 5G 中了解到的 rom 内容。
-[toc]
+A Hikaru theme inspired by Kalafina's song ARIA.
+------------------------------------------------
 
----
+Live Demo: [喵's StackHarbor](https://sh.alynx.moe/)
 
-## 类原生安卓系统
+# Feature
 
-相对适合使用，社区相对丰富，能更大可能地确保功能正常
+- Elegant responsive double column layout with CSS animation.
+- Comment system (currently supprt [Disqus](https://disqus.com/) and a builtin GitHub issue based comment).
+- Busuanzi counting.
+- Hikaru local search support.
+- Multi-languages support (currently `zh-Hans`, `zh-Hant-HK`, `zh-Hant-TW` and `en`, PR welcome).
+- RSS feed supported.
+- Dark mode supported by CSS variables.
 
----
+# Before Using
 
-### [LineageOS](https://lineageos.org/)
+Using a static website generator needs some basic knowledge, if you know nothing, Hikaru and ARIA are not your best choice. Please be sure you know Hikaru, YAML, git, Markdown and Web before continuing.
 
-![LineageOS](https://lineageos.org/images/logo.webp)
+IE support has been dropped because many new features cannot be easily polyfilled for IE, for example WebP, Promise, Fetch API, CacheStorage, some amazing functions in ARIA need those features so it's better to let IE users use modern browsers like [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/) (**HIGHLY RECOMMENDED**) or [Google Chrome](https://www.google.com/chrome/).
 
-> “一个基于Android移动平台的免费开源作系统”
+There won't be any stable releases for ARIA, because I am not interested in maintaining different versions except the one I am using. **Without maintaining stable releases are just stable bugs instead of quality.** So keep using the latest version of ARIA and Hikaru.
 
-社区相对庞大的系统，支持的设备也比较多，但是系统功能相对少。
+[Valine](https://valine.js.org/) was dropped because it's not an open source project any more since `v1.4.0` (**it said because of "some reasons" on its homepage but never says what they are**), and it's considered not safe for saving unencrypted user email/IP address in open database. (For more detailed info, Chinese user could read [this blog](https://ttys3.dev/blog/please-stop-using-valine-js-comment-system-until-it-fixed-the-privacy-leaking-problem/).)
 
-### [crDroid](https://crdroid.net/)
+# Usage
 
-![crDroid](https://crdroid.net/img/logo.png)
+## Clone This Repo
 
-> “力求与其来源保持同步，同时添加我们自己的自定义功能。”
+Clone it to `themes/aria`:
 
-基于 LineageOS 的 ROM ，支持的设备少一些，但是推荐的人挺多的。
+```
+$ git clone https://github.com/AlynxZhou/hikaru-theme-aria.git themes/aria
+```
 
-### [GrapheneOS](https://grapheneos.org/)
+Or if you already have a git repo in your site dir, you can add this as a submodule:
 
-![GrapheneOS](https://grapheneos.org/apple-touch-icon.png)
+```
+$ git submodule add https://github.com/AlynxZhou/hikaru-theme-aria.git themes/aria
+```
 
-> “专注于隐私和安全技术的研发，包括对沙箱技术、漏洞缓解和许可模式的重大改进。”
+## Edit Site Config
 
-系统的日用功能很简陋、以隐私和安全能力闻名，无特殊需求不推荐拿来日用。
+Following needs to be changed in your `site-config.yaml`.
 
-### [Evolution X](https://evolution-x.org/)
+### Change Theme to `aria`
 
-![Evolution X](https://evolution-x.org/apple-icon)
+```yaml
+themeDir: aria
+```
 
-> “基于 LineageOS 以提升稳定性和性能提升。”
+### Language Settings
 
-相对更好看、功能更丰富的系统（听说是到处拿别人的功能缝起来的，而且对国内不友好，名声不好，但对用户还行？）。
+Available values are `zh-Hans`, `zh-Hant-HK`, `zh-Hant-TW` and `en`. `default` is an alias of `en`.
 
-### [Pixel experience](https://get.pixelexperience.org/)（已停止更新）
+```yaml
+language: zh-Hans
+```
 
-![Pixel experience](https://get.pixelexperience.org/_next/static/media/logo-black.e44b3c85.svg)
+### Search Settings
 
-> 一个基于 AOSP 的 ROM，包含 Google 应用和 Pixel 的很多功能。
+```yaml
+search:
+  enable: true
+  path:
+    - search/1.json
+    - search/2.json
+    - search/3.json
+  page: search/index.html
+```
 
-大概是最接近谷歌官方 PixelOS 的第三方系统了，但是目前只能下载，不再更新了。
+### RSS Settings
 
-## 移动定制版 Linux
+```yaml
+feed:
+  enable: true
+  path: atom.xml
+  limit: 20
+  hub:
+  content: false
+  contentLimit: 140
+```
 
-相对不适合作手机日用，社区支持少，很多时候都功能残缺（你要是日后还想把它当正常手机用，那建议放弃）
+### Highlight Settings
 
----
+If you want to speed up generation, you can set `enable: false` to prevent Hikaru for doing highlight, and ARIA will do highlight in browser with JavaScript.
 
-### [Ubuntu Touch](https://www.ubuntu-touch.io/)
+If you don't want to generate gutter to HTML docs with Hikaru, you can set `gutter: false`, and ARIA will generate gutter in browser with JavaScript, this is useful if you don't want gutter in Feed XML.
 
-适配的设备很少，是 Ubuntu Linux 官方的移动端系统，有适配的话社区支持很好。
+```yaml
+highlight:
+  enable: true
+  gutter: true
+  hljs: true
+```
 
-### [postmarketOS](https://postmarketos.org/)
+## Copy ARIA's Config
 
-Alpine Linux 基础上的系统，适配的设备相对更多，但是也有很多都只是有人测试过，并记录了可用性，并没有提供对应镜像，也没有维护。
+Copy theme config to your site dir:
 
-### [Mobian](https://mobian-project.org/)
+```
+$ cp themes/aria/theme-config.yaml theme-config.yaml
+```
 
-Debian Linux 官方移动端系统，似乎只有通用的包，没有针对不同设备的特别维护
+## Edit Theme Config
+
+Following needs to be changed in `theme-config.yaml`, not all config needs customization, you just change what you need：
+
+### Menu Settings
+
+If you want tags and categories links in menu, set it like following:
+
+```yaml
+menu:
+  - name: home
+    link: /
+    icon: <i class="bi bi-house"></i>
+  - name: archives
+    link: archives/
+    icon: <i class="bi bi-archive"></i>
+  - name: categories
+    link: categories/
+    icon: <i class="bi bi-list-nested"></i>
+  - name: tags
+    link: tags/
+    icon: <i class="bi bi-tags"></i>
+  # - name: about
+  #   link: about/
+  #   icon: <i class="bi bi-person-bounding-box"></i>
+```
+
+Get icons from [Bootstrap Icons](https://icons.getbootstrap.com/). Please use `<i>` tag.
+
+### Generating Favicon
+
+First prepare a image of your favicon then go to  <https://realfavicongenerator.net/> to generate favicons for different browsers, then download the zip file and extract it into website's `srcs/favicons` dir (create it first). ARIA will load them.
+
+### Website Keywords
+
+Set the value of `keywords` to a list of keywords.
+
+### Creative Commons Licenses
+
+Set it in `creativeCommons`. To keep it simple ARIA will show a link in footer. You can choose one of `by`, `by-sa`, `by-nd`, `by-nc`, `by-nc-sa`, `by-nc-nd`. Go to <https://creativecommons.org/licenses/> to learn more.
+
+### Code Highlight
+
+ARIA has 4 highlight theme. You can choose the value of `highlight` in one of `atom-one-dark`, `atom-one-light`, `solarized-dark`, `solarized-light`. ARIA uses  highlight.js, so if you want to add more highlight theme, go to [highlight.js' style repo](https://github.com/isagalaev/highlight.js/tree/master/src/styles) and download CSS file you need to your site's `srcs/css/` dir (just create a `css/` dir in `srcs/` that you store site source files, you can also put it into theme's `srcs/css/` but it will make git workspace dirty), then set here to your downloaded file name (without `.css` suffix, it will be add automatically).
+
+### Pinned Message
+
+This will be shown on all pages and posts. If you don't need this, leave it empty.
+
+```yaml
+pinnedMessage: <div class="alert-blue">Welcome!</div>
+```
+
+### Custom Info
+
+The value of `customInfo` will be shown in footer. You should not use a long string because it will break footer's format.
+
+### Avatar
+
+Set the value of `avatar` to your avatar's link, for example, you set `avatar: images/myavatar.png` then you needs to put you avatar to `srcs/images/myavatar.png`.
+
+### Custom Logo
+
+Set it like avatar, and your logo will be shown in header, which by default shows `ARIA`, or leave it blank to hide logo.
+
+### Custom Theme Color
+
+Theme color `color` will be used in header and footer background, and also in some browsers' title bar like Android Chrome, by default it's theme's dark. Because color starts with `#`, you need to use double quote to prevent YAML from making it a comment. If you are not sure, don't change here.
+
+### Google Site Verification
+
+If you want to let Google collect your website, you need to show that this is your website. When verifying, choose "Use <meta> tag" and copy the value of property `content` to `googleVerification` then re-generate and re-deploy your website.
+
+### Website Start Year
+
+Set `since` to your start year，if blank or the same as current year, it will only show current year, else it will show `start - current`.
+
+### Searching Settings
+
+To enable search, first keep sure that you added config like the 2nd step, then set `search` to `true`, it will be placed on the top of sidebar.
+
+### Sidebar Settings
+
+Choose between `left`, `right`, or empty to hide sidebar.
+
+### Animation
+
+Set `animate` to `true` will enable the flipping of cards (Not recommended because it's slow in some old browsers and computers).
+
+### Busuanzi Counting
+
+If you want to disable Busuanzi, set `busuanzi` to `false`, or it will display `website visit counting`, `website visit persion counting`, `page visit counting`.
+
+### MathJax
+
+[MathJax](https://www.mathjax.org/) is a library of displaying math formula in webpage, because it is large, ARIA does not contain it. If you need it, first set `enable` of `mathjax` to `true` and **set `cdn` to your MathJax CDN**, then **add `mathjax: true` to the page's front-matter in which you has formula**. Set `global` to `true` can enable MathJax in all pages but it will let other pages slow.
+
+### Library CDN
+
+You can use CDN with ARIA's internal lib. First set `libCDN` to `enable: true`, then add CDN link to the library. If you don't know what you are doing, just skip it.
+
+### Social Links
+
+First set `enable` of `social` to `true`, then add your social links under `links` like following:
+
+```yaml
+social:
+  enable: true
+  links:
+    - name: Display Name
+      link: Link Address
+      icon: <i class="bi bi-link-45deg"></i>
+    - name: Display Name
+      link: Link Address
+      icon: <i class="bi bi-link-45deg"></i>
+```
+
+Get icons from [Bootstrap Icons](https://icons.getbootstrap.com/). Please use `<i>` tag.
+
+### Blogrolls
+
+First set `enable` of `blogroll` to `true`, then add links under `links` like following:
+
+```yaml
+blogroll:
+  enable: true
+  links:
+    - name: Display Name
+      link: Link Address
+      icon: <i class="bi bi-link-45deg"></i>
+    - name: Display Name
+      link: Link Address
+      icon: <i class="bi bi-link-45deg"></i>
+```
+
+Get icons from [Bootstrap Icons](https://icons.getbootstrap.com/). Please use `<i>` tag.
+
+### Comment Support
+
+First set `comment` to `enable: true` to enable comment in all pages (except Home, Archives, Categories, Tags), then fill your Disqus Shortname. If you want to disable comment in some pages, add front-matter `comment: false` (`comment` NOT `comments`!).
+
+If you use builtin GitHub issue based comment, first set `enable` to `true`, `user` is your GitHub user name, `repo` is your GitHub repo name. Because GitHub forces to use a paginated API, there is a `perPage` option, better to keep it default. This script only read issues from GitHub API, and has no data forward that may lose your info, it is safe.
+
+If you use Valine, read its docs and fill options `apiID`, `apiKey`, set `enable` to `true` and custom other options.
+
+If you enable more than one comment services, only the one shows in front of the queue will be shown (queue: builtin comment, Disqus, Valine).
+
+### Reward
+
+Set `enable` of `reward` to `true` to use it, then set your comment in `comment`, and set QRCode of WeChat Pay, AliPay, BitCoin like avatar. Leave blank to disable a QRCode.
+
+Add `reward: false` to disable reward in some pages.
+
+### Auto Excerpt
+
+If you want to generate post excerpt at homepage automatically, you can use this. For example, `autoExcerpt: 200` will use first 200 chars (without HTML tags) as excerpt. However, if you want to get a better look, it is recommended to **place a `<!--more-->` tag to where you want, words before this tag will be used as except**.
+
+### Custom Fonts
+
+Set `enable` of `customFont` to `true`, then go to a webfont server like [Google Fonts](https://fonts.google.com/) (If you cannot open it, choose another), select all fonts you need, then copy the `href` property of generated `<link>` tag to `link` option. Then set different fonts to different parts.
+
+Example like:
+
+```yaml
+customFont:
+  enable: true
+  link: //fonts.googleapis.com/css?family=Lato|Roboto+Condensed|Skranji|Ubuntu|Ubuntu+Mono
+  all: Ubuntu # Font of <body>.
+  title: Roboto Condensed # Font of title.
+  subtitle: Roboto Condensed # Font of subtitle.
+  main: Ubuntu # Font of main part (after the menu and before the footer).
+  code: Ubuntu Mono # Font of code.
+```
+
+## Internal Style for Writing
+
+Markdown will be compiled to HTML, and you can write HTML in a valid Markdown file. In order to help you organize your article better, here are some internal custom style class that you can use while writing.
+
+### Center Quote
+
+Just add `blockquote.center-quote` class to your HTML code, you will get a center-aligned quote with top and bottom border:
+
+```HTML
+<blockquote class="center-quote">Centerquote Example</blockquote>
+```
+
+### Colorful Alert
+
+Just add `div.alert-red`, `div.alert-green` or `div.alert-blue` to your HTML code:
+
+```HTML
+<div class="alert-red">Alert Red Example</div>
+<div class="alert-green">Alert Green Example</div>
+<div class="alert-blue">Alert Blue Example</div>
+```
+
+### Center Text
+
+Just add `div.center` to your HTML code:
+
+```HTML
+<div class="center">Center</div<
+```
+
+### Enlarge Image
+
+Just add `div.enlarge` outside your image, it will expand to cover the padding of card:
+
+```HTML
+<div class="enlarge">
+  <img src="/path/to/image">
+</div>
+```
+
+### Faded Texts
+
+Texts are hidden by using the background color as text color if they are not hovered. Use this to hide short texts.
+
+```HTML
+<span class="faded">Some Secrets</span>
+
+### Covered Texts
+
+Texts are hidden by using the text color as background color if they are not hovered. Use this to hide short texts.
+
+```HTML
+<span class="covered">Some Secrets</span>
+
+## Custom CSS and JavaScript
+
+If you need to cover some CSS style of ARIA, just edit `themes/aria/srcs/css/custom.styl` which will be added last.
+
+If you need some custom JavaScript, just edit `themes/aria/srcs/js/custom.js` which will be added last.
+
+## Update Theme
+
+If you use custom CSS or JavaScript, please use Git to commit them first. You can only pull when your workspace is clean.
+
+Then use `git pull` to get the newest commit, if there is a conflict, merge it manually.
+
+Don't forget to compare `theme-config.yaml` in site's dir and theme's dir, then apply changes in example to your `theme-config.yaml` in site's dir manually.
+
+# Coding Style
+
+You don't need to keep 80-chars a line in templates and style files, you should keep them in good structure.
+
+Don't forget to add space after English puctuation.
+
+## CSS
+
+For decoration's size that related to inner text, or inside other container, use `em`. (e.g. `line-height`, `text-shadow`, `ul`'s `padding-left`, link's `border-bottom` and `top`, inline element's `margin` and `padding`.)
+
+For `font-size` or other non-relative size elements, use `rem`. (But mostly I only use rem for font related properties.)
+
+Use 2-spaces indent.
+
+## Nunjucks
+
+Nunjucks tags should not be indented, which means they should be in the same level as their inner HTML. Consider them as HTML comment.
+
+Use 2-spaces indent.
+
+Check condition outside include statement instead of check condition in the toplevel of included file, this prevents extra file loading because Nunjucks uses runtime including.
+
+If control blocks or comments take a whole line, use `{%- %}` or `{#- #}` to trim the start side of those lines, this will remove white spaces used to indent the tag and the line break before the tag.
+
+However, don't trim `extends`, `include`, `block` and `endblock`, because they mean parts from other places, so it's useless to do this for them.
+
+If output strings of macro should be inline but is in a new line, trim the start side with `{{- }}`.
+
+If you are putting some tags that generates no output at the beginning of a file, trimming the start side is useless, you need to trim both sides with `{%- -%}`. For example, you should put all `import` tags at the beginning of a file and trim both sides to prevent empty lines in non-extending templates.
+
+**NOTE**: Nunjucks trims before parsing, this is helpful when you try to understand whitespaces. For example, how you trim a macro does not affect the file you call the macro, but how you trim the output tag that calles the macro affect the result.
+
+If inner HTML does not take the whole line, control blocks should also be inline, instead of take a whole line.
+
+Try not to use macros too much, escpecially do not use macros to generate large HTML skeletons. Some layouts do looks the same and could be generate via macros with arguments, for example `tag` and `category` are similiar with `archives`, but that will makes new programmers hard to understand the page, and I prefer when you open a template, you can directly read the HTML skeleton. So only use macros when necessary, for example you need to do recursion, or you have the same pieces of code in different places that generates inline elements.
+
+## JavaScript
+
+JavaScript inside scripts tags shoule have a 2-spaces indent to it's parent `<script>` tag.
+
+Most JavaScript code should inside `index.js`'s `documentReady()`.
+
+IE support will be dropped so just use ES6, cheers!
+
+Prefer to use template strings or `Array.join()` instead of `+` to concat strings.
+
+Prefer to use `"` and escaping instead of `'`.
+
+Don't remove `;`.
+
+Write functions like `function name(arg1, arg2) {}`, keep space after `function`, `,` and before `{`, but not after function name. But I prefer arrow functions with const.
+
+Use 2-spaces indent.
+
+## YAML
+
+Use camelCase.
+
+Don't use inline array and object.
+
+If you need an array to iterate, don't use object with it's key and value, use array of objects.
+
+Use 2-spaces indent.
+
+# Assets
+
+## Images
+
+You should convert images into webp format, and compress them to reduce traffic while loading.
+
+Don't forget to provide both light and dark variant images if needed.
+
+The dark variant of sidebar background is generated by reverse the color in GIMP.
+
+The webp version of sidebar background is generated with `cwebp -m 6 -q 75 -crop 0 0 512 1024 -o "${FILENAME}.webp" "${FILENAME}.png"` to reduce size, because the sidebar is not so wide.
+
+# Note
+
+I created this theme with less configurations and beautiful styles. You can send PRs if you want to add some functions, if those functions are useful they will be merged soon. However, some themes says they are "simple/simpler/simplest" but infact they are ugly or other themes have so many functions and some of them in fact has little people using or just keep default, I don't want them.
+
+For example, I will only add local search (it generates a xml of data and just use JavaScript code to query it without buying database service) to my theme because it works fine. Is there really someone paid to use Swift search or Algolia? So never send PR like *I added swift search and let some beginners use it and pay for it because they know little!* because I think local search is better for noob or beginners! if you dislike local search you can disable it (Really? You hate a simple search frame in your site?).
+
+And refuse something like *I added a config to make avatar a square instead a circle!*, what will help if we make avatar available from TRIANGLE to HEPTADECAON? Do we really need six or more schemes in one theme? If you like, you can fork your own, but I will keep them six themes. This makes developers easy to find where to edit codes instead finding bug in some total unrelated scheme codes with `{% if schemeA %}{{ xxxxxxxxxblockxxxxxXXXXXxxxxx }}{% elif schemeB %}{{ xxxxxxxspanxxxxximgxxxxx }}{% endif %}` or `if (config(schemeA)) { .cls { a { &:hover { background: #333; } } } }`, I used to work with those codes and I know how they hurt your eyes while finding some code...
+
+Plus, if you want add comment system, choose what people uses most like Gitment or Valine or LiveRe, no more Duoshuo or Changyan or Netease Cloud Comment because they are unstable and can make people confused or send your privacy to the government of "Other Country". I want ARIA to be easy to use, not a mess of needless choice. If only 15% or less users need a custom option, just write it into code instead of leaving a option in config file.
+
+# License
+
+[Apache-2.0](./LICENSE)

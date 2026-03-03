@@ -1,0 +1,66 @@
+{#
+  Put macros here. This file should be imported with context to use helpers from
+  Hikaru in context.
+  #}
+
+{#
+  Only use macros when necessary, for example you need to do recursion, or you
+  have the same pieces of code in different places that generates inline
+  elements. Don't use macros to generate large HTML skeletons.
+  #}
+
+{#
+  This is used to generate description used in meta tags, auto excerpt of posts
+  in home page is different from this.
+  #}
+{%- macro generateMetaDescription(file) %}
+{%- if file.excerpt  %}
+{{- file.excerpt | striptags }}
+{%- elseif file.description %}
+{{- file.description | striptags }}
+{%- elseif file.content and themeConfig.autoExcerpt %}
+{{- (file.content | striptags).substring(0, themeConfig.autoExcerpt) }}{{ __("ellipsis") }}
+{%- elseif siteConfig.subtitle %}
+{{- siteConfig.subtitle }}
+{%- elseif siteConfig.description %}
+{{- siteConfig.description }}
+{%- endif %}
+{%- endmacro %}
+
+{#
+  This generate blocks so it already has line break on start, so trimming start
+  when calling it.
+#}
+{%- macro listCategory(cates) %}
+{%- if cates and cates.length > 0 %}
+<ul>
+  {%- for cate in cates %}
+  <li>
+    <a href="{{ getPath(cate.docPath) }}">{{ cate.name }}</a>{% if cate.posts and cate.posts.length > 0 %} <span>{{ cate.posts.length }}</span>{% endif %}
+    {{- listCategory(cate.subs) }}
+  </li>
+  {%- endfor %}
+</ul>
+{%- endif %}
+{%- endmacro %}
+
+{#
+  This generate blocks so it already has line break on start, so trimming start
+  when calling it.
+#}
+{%- macro listTOC(toc, level = 1) %}
+{%- if toc and toc.length > 0 %}
+<ol{% if level === 1 %} class="toc"{% endif %}>
+  {%- for h in toc %}
+  <li>
+    {#-
+      Don't set anchor to absolute path, because it will be hard to write
+      selector for scripts like scrollspy.
+    #}
+    <a class="list-group-item toc-link" href="{{ h.archor }}">{{ h.text }}</a>
+    {{- listTOC(h.subs, level + 1) }}
+  </li>
+  {%- endfor %}
+</ol>
+{%- endif %}
+{%- endmacro %}

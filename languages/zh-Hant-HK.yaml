@@ -1,0 +1,69 @@
+home: 首頁
+index: 首頁
+archive: 歸檔
+archives: 歸檔
+category: 分類
+categories: 分類
+tag: 標籤
+tags: 標籤
+about: 關於
+
+search: 搜索
+toc: 文章目錄
+socialLink: 社交鏈接
+blogroll: 友情鏈接
+
+# readmore: 閱讀全文
+
+ellipsis: ……
+code: 代碼
+
+clipboard:
+  copy: 拷貝
+  copied: 已拷貝
+
+reward:
+  reward: 打賞
+  weChatPay: 微信支付
+  aliPay: 支付寶
+  bitCoin: 比特幣
+
+postCount:
+  none: 你還沒有文章，現在寫一篇吧！
+  one: 你已經寫了 %d 篇文章，積少成多，再接再厲！
+  more: 你已經寫了 %d 篇文章！
+
+tagCount:
+  none: 你還沒有標籤，現在創建一個吧！
+  one: 你已經創建了 %d 個標籤，積少成多，再接再厲！
+  more: 你已經創建了 %d 個標籤！
+
+categoryCount:
+  none: 你還沒有分類，現在創建一個吧！
+  one: 你已經創建了 %d 個分類，積少成多，再接再厲！
+  more: 你已經創建了 %d 個分類！
+
+searchResult:
+  none: 未找到符合要求的搜索結果
+  fail: 部分數據獲取失敗，請刷新頁面以重新搜索。
+
+comment:
+  none: 這個頁面還沒有評論，現在就去評論吧！
+  send: 去評論
+  read: 閱讀評論
+  fail: 你可能達到了 API 請求頻率上限，請等待一段時間再刷新。
+  body: "<!-- 請在下一行附加您的評論并提交 issue！切勿修改 issue 標題因爲需要靠它匹配文章和評論！ -->"
+
+poweredBy: 由 %s 強力驅動
+theme: 主題 %s
+
+accessibility:
+  prevPage: 上一頁
+  nextPage: 下一頁
+  backToTop: 回到頂部
+  navToggle: 切換導航欄
+  lightTheme: 淺色模式
+  darkTheme: 深色模式
+  sitePV: 站點訪問量
+  siteUV: 站點用戶數
+  pagePV: 頁面訪問量

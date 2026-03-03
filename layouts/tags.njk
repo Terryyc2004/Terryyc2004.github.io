@@ -1,0 +1,49 @@
+{% extends "includes/layout.njk" %}
+
+{% block js %}
+<script type="text/javascript">
+  documentReady(function () {
+    const fontSizes = ["1", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "2", "2.1", "2.2", "2.3", "2.4", "2.5"];
+    elementsEach(
+      document.querySelectorAll(".tags-cloud .post-tag"),
+      (e, i) => {
+        e.style.fontSize = fontSizes[Math.floor(Math.random() * fontSizes.length)] + "rem";
+      }
+    );
+  });
+</script>
+{% endblock %}
+
+{% block title %}{{ __(file.title) }} - {{ siteConfig.title }}{% endblock %}
+
+{% block content %}
+{%- if themeConfig.pinnedMessage %}
+{% include "includes/pinned-message.njk" %}
+{%- endif %}
+<div id="tags" class="tags page">
+  <article class="article post card{% if themeConfig.animate %} animate{% endif %}">
+    <header class="post-header">
+      <div class="post-title" itemprop="name headline">
+        <a class="title-link" href="{{ getPath(file.docPath) }}" itemprop="url">{{ __(file.title) }}</a>
+      </div>
+    </header>
+    <main class="post-main">
+      <div class="page-counter">
+        {%- if site.tagsLength > 1 %}
+        {{ __("tagCount.more", site.tagsLength) }}
+        {%- elseif site.tagsLength === 1 %}
+        {{ __("tagCount.one", site.tagsLength) }}
+        {%- else %}
+        {{ __("tagCount.none") }}
+        {%- endif %}
+      </div>
+      <div class="tags-cloud">
+        {%- if site.tags and site.tagsLength > 0 %}
+        {% for tag in site.tags %}<a class="post-tag button" href="{{ getPath(tag.docPath) }}" rel="tag"><i class="bi bi-tag"></i>{{ tag.name }}{% if tag.posts and tag.posts.length > 0 %} {{ tag.posts.length }}{% endif %}</a>{% endfor %}
+        {%- endif %}
+      </div>
+    </main>
+    <footer class="post-footer"></footer>
+  </article>
+</div>
+{% endblock %}

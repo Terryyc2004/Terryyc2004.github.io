@@ -1,0 +1,75 @@
+{%- import "includes/utils.njk" as utils with context -%}
+<aside class="sidebar" id="sidebar">
+  {%- if themeConfig.search %}
+  <div class="search" role="search">
+    <form action="{{ getPath(siteConfig.search.page) }}" method="get">
+      <button type="submit" class="search-submit" aria-label="{{ __("search") }}"><i class="bi bi-search"></i></button><input type="search" id="search-input" class="search-input" name="q" results="0" placeholder="{{ __("search") }}" aria-label="{{ __("search") }}">
+    </form>
+  </div>
+  {%- endif %}
+  <div class="info sidebar-item" id="info">
+    {%- if themeConfig.avatar %}
+    <img class="author-avatar" src="{{ getPath(themeConfig.avatar) }}" alt="{{ siteConfig.author }}">
+    {%- endif %}
+    <div class="author-name">{{ siteConfig.author }}</div>
+    {%- if siteConfig.description %}
+    <div class="author-description">{{ siteConfig.description }}</div>
+    {%- endif %}
+    <div class="site-count">
+      {%- for e in themeConfig.menu %}
+      {%- if e.name === "archives" %}
+      <div class="archives-count count-block">
+        <div class="site-count-title">{{ __("archives") }}</div>
+        <div><a href="{{ getPath(e.link) }}">{% if site.posts %}{{ site.posts.length }}{% else %}0{% endif %}</a></div>
+      </div>
+      {%- elseif e.name === "categories" %}
+      <div class="categories-count count-block">
+        <div class="site-count-title">{{ __("categories") }}</div>
+        <div><a href="{{ getPath(e.link) }}">{% if site.categories %}{{ site.categoriesLength }}{% else %}0{% endif %}</a></div>
+      </div>
+      {%- elseif e.name === "tags" %}
+      <div class="tags-count count-block">
+        <div class="site-count-title">{{ __("tags") }}</div>
+        <div><a href="{{ getPath(e.link) }}">{% if site.tags %}{{ site.tagsLength }}{% else %}0{% endif %}</a></div>
+      </div>
+      {%- endif %}
+      {%- endfor %}
+    </div>
+    {%- if siteConfig.feed.enable %}
+    <div class="rss">
+      <a class="rss-link button sidebar-item" href="{{ getPath(siteConfig.feed.path) }}"><i class="bi bi-rss"></i>RSS</a>
+    </div>
+    {%- endif %}
+  </div>
+  <div class="sidebar-sticky">
+    {%- if file.content and file.toc and file.toc.length > 0 %}
+    <hr>
+    <div class="post-toc sidebar-item">
+      <div><i class="bi bi-list-ol"></i>{{ __("toc") }}</div>
+      {{- utils.listTOC(file.toc) }}
+    </div>
+    {%- endif %}
+    {%- if themeConfig.social.enable %}
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="bi bi-person-workspace"></i>{{ __("socialLink") }}</div>
+      <ul class="sidebar-list">
+        {%- for e in themeConfig.social.links %}
+        <li class="sidebar-list-item">{% if e.icon %}{{ e.icon }}{% endif %}<a href="{{ e.link }}" target="_blank" rel="external nofollow noreferrer noopener">{{ e.name }}</a></li>
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- endif %}
+    {%- if themeConfig.blogroll.enable %}
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="bi bi-people"></i>{{ __("blogroll") }}</div>
+      <ul class="sidebar-list">
+        {%- for e in themeConfig.blogroll.links %}
+        <li class="sidebar-list-item">{% if e.icon %}{{ e.icon }}{% endif %}<a href="{{ e.link }}" target="_blank" rel="external nofollow noreferrer noopener">{{ e.name }}</a></li>
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- endif %}
+  </div>
+</aside>

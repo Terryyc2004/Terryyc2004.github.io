@@ -1,0 +1,225 @@
+{%- import "includes/utils.njk" as utils with context -%}
+<!DOCTYPE html>
+<html data-theme="light" lang="{{ file.lang or file.language or siteConfig.language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10">
+    {%- if themeConfig.color %}
+    <meta name="theme-color" content="{{ themeConfig.color }}">
+    <meta name="msapplication-TileColor" content="{{ themeConfig.color }}">
+    {%- endif %}
+    {%- if themeConfig.googleVerification %}
+    <meta name="google-site-verification" content="{{ themeConfig.googleVerification }}">
+    {%- endif %}
+    {#- See <https://html.spec.whatwg.org/multipage/semantics.html#standard-metadata-names>. #}
+    {%- if file.author %}
+    <meta name="author" content="{{ file.author }}">
+    {%- elseif file.email %}
+    {#- Maybe email is not OK here... #}
+    <meta name="author" content="{{ file.email }}">
+    {%- elseif siteConfig.author %}
+    <meta name="author" content="{{ siteConfig.author }}">
+    {%- endif %}
+    {%- set metaDescription = utils.generateMetaDescription(file) %}
+    {%- if metaDescription.length > 0 %}
+    <meta name="description" content="{{ metaDescription }}">
+    {%- endif %}
+    {%- if file.keywords %}
+    <meta name="keywords" content="{{ file.keywords.join(", ") }}">
+    {%- elseif tags %}
+    {#- See <https://mozilla.github.io/nunjucks/templating.html#join>. #}
+    {#- Nunjucks does not allow to define functions so we cannot use `map()`. #}
+    <meta name="keywords" content="{{ file.tags | join(", ", "name") }}">
+    {%- elseif themeConfig.keywords %}
+    <meta name="keywords" content="{{ themeConfig.keywords.join(", ") }}">
+    {%- endif %}
+    <meta name="generator" content="Hikaru v{{ getVersion() }}">
+    {#- We can handle both light and dark color scheme. #}
+    <meta name="color-scheme" content="light dark">
+    {#- See <https://ogp.me/>. #}
+    <meta property="og:site_name" content="{{ siteConfig.title }}">
+    <meta property="og:title" content="{{ __(file.title) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ getURL(file.docPath) }}">
+    {#- Though I have a site logo, but author avatar is better here. #}
+    {%- if themeConfig.avatar %}
+    <meta property="og:image" content="{{ getURL(themeConfig.avatar) }}">
+    {%- endif %}
+    {%- if metaDescription > 0  %}
+    <meta property="og:description" content="{{ metaDescription }}">
+    {%- endif %}
+    <link rel="canonical" href="{{ getURL(file.docPath) }}">
+    {%- if themeConfig.favicon.appleTouchIcon %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ getPath(themeConfig.favicon.appleTouchIcon) }}">
+    {%- endif %}
+    {%- if themeConfig.favicon.androidChromeLarge %}
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ getPath(themeConfig.favicon.androidChromeLarge) }}">
+    {%- endif %}
+    {%- if themeConfig.favicon.medium %}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ getPath(themeConfig.favicon.medium) }}">
+    {%- endif %}
+    {%- if themeConfig.favicon.small %}
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ getPath(themeConfig.favicon.small) }}">
+    {%- endif %}
+    {%- if themeConfig.favicon.safariPinnedTab %}
+    <link rel="mask-icon" href="{{ getPath(themeConfig.favicon.safariPinnedTab) }}" color="{{ themeConfig.color }}">
+    {%- endif %}
+    {%- if themeConfig.favicon.androidManifest %}
+    <link rel="manifest" href="{{ getPath(themeConfig.favicon.androidManifest) }}">
+    {%- endif %}
+    {%- if themeConfig.favicon.msBrowserConfig %}
+    <meta name="msapplication-config" content="{{ getPath(themeConfig.favicon.msBrowserConfig) }}">
+    {%- endif %}
+    {%- if themeConfig.favicon.fallback %}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ getPath(themeConfig.favicon.fallback) }}">
+    {%- endif %}
+    {%- if siteConfig.feed.enable %}
+    <link rel="alternate" href="{{ getPath(siteConfig.feed.path) }}" title="{{ siteConfig.title }}" type="application/atom+xml">
+    {%- endif %}
+    {%- if themeConfig.customFont.enable and themeConfig.customFont.link %}
+    <link rel="stylesheet" type="text/css" href="{{ themeConfig.customFont.link }}">
+    {%- endif %}
+    <link rel="stylesheet" type="text/css" href="{% if themeConfig.libCDN.enable and themeConfig.libCDN.normalize %}{{ themeConfig.libCDN.normalize }}{% else %}{{ getPath("css/normalize.css") }}{% endif %}">
+    <link rel="stylesheet" type="text/css" href="{{ getPath("css/variables.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ getPath("css/index.css") }}">
+    {%- if themeConfig.comment.enable and themeConfig.comment.issue.enable and comment != false %}
+    <link rel="stylesheet" type="text/css" href="{{ getPath("css/comment.css") }}">
+    {%- endif %}
+    <link rel="stylesheet" type="text/css" href="{% if themeConfig.libCDN.enable and themeConfig.libCDN.bootstrapIcons.css %}{{ themeConfig.libCDN.bootstrapIcons.css }}{% else %}{{ getPath("css/bootstrap-icons.css") }}{% endif %}">
+    {#- Styles that need extra info so put them in template. #}
+    <style type="text/css">
+      :root {
+        --url-sidebar-background: url("{{ getPath("images/background.webp") }}");
+        --url-dark-sidebar-background: url("{{ getPath("images/background-dark.webp") }}");
+        {%- if themeConfig.customFont.enable %}
+        {%- if themeConfig.customFont.all %}
+        --font-all: {{ themeConfig.customFont.all }}, var(--font-sans);
+        {%- endif %}
+        {%- if themeConfig.customFont.title %}
+        --font-title: {{ themeConfig.customFont.title }}, var(--font-sans);
+        {%- endif %}
+        {%- if themeConfig.customFont.subtitle %}
+        --font-subtitle: {{ themeConfig.customFont.subtitle }}, var(--font-sans);
+        {%- endif %}
+        {%- if themeConfig.customFont.main %}
+        --font-main: {{ themeConfig.customFont.main }}, var(--font-sans);
+        {%- endif %}
+        {%- if themeConfig.customFont.code %}
+        --font-code: {{ themeConfig.customFont.code }}, var(--font-mono), var(--font-sans);
+        {%- endif %}
+        {%- endif %}
+      }
+      /* Replace the default Bootstrap Icons fonts path. */
+      @font-face {
+        font-family: "bootstrap-icons";
+        font-display: block;
+        src: url("{% if themeConfig.libCDN.enable and themeConfig.libCDN.bootstrapIcons.woff2 %}{{ themeConfig.libCDN.bootstrapIcons.woff2 }}{% else %}{{ getPath("fonts/bootstrap-icons.woff2") }}{% endif %}") format("woff2"), url("{% if themeConfig.libCDN.enable and themeConfig.libCDN.bootstrapIcons.woff %}{{ themeConfig.libCDN.bootstrapIcons.woff }}{% else %}{{ getPath("fonts/bootstrap-icons.woff") }}{% endif %}") format("woff");
+      }
+      {%- if themeConfig.sidebar === "left" %}
+      div.main-container {
+        flex-direction: row-reverse;
+      }
+      {#- Don't forget to swap rounded corner for sidebar. #}
+      aside.sidebar {
+        border-radius: 0 0 0 var(--corner-radius);
+      }
+      {%- endif %}
+      {%- if themeConfig.color %}
+      body, header.header, footer.footer {
+        background: {{ themeConfig.color }};
+      }
+      {%- endif %}
+    </style>
+    {#-
+      Mobile uses single column layout, it should have higher priority than
+      sideber position.
+    #}
+    <link rel="stylesheet" type="text/css" href="{{ getPath("css/mobile.css") }}">
+    {%- block css %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ getPath("css/custom.css") }}">
+    {#-
+      You should not set `defer` to `index.js` because other scripts depends it
+      for `documentReady()`!
+    #}
+    <script type="text/javascript" src="{{ getPath("js/index.js") }}"></script>
+    {%- if themeConfig.busuanzi %}
+    <script defer type="text/javascript" src="{% if themeConfig.libCDN.enable and themeConfig.libCDN.busuanzi %}{{ themeConfig.libCDN.busuanzi }}{% else %}{{ getPath("js/busuanzi.pure.mini.js") }}{% endif %}"></script>
+    {%- endif %}
+    <script type="text/javascript">
+      // Set theme before page rendering.
+      // Check user's choice from localStorage.
+      let theme = window.localStorage.getItem("theme");
+      const preferenceQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      // theme might be null here.
+      if (theme !== "dark" && theme !== "light") {
+        // Init from user's system settings if no choice.
+        theme = preferenceQuery.matches ? "dark" : "light";
+      }
+      // Yes, it looks I can modify documentElement before ready!
+      // Don't use requestAnimationFrame here, it will cause flickering.
+      document.documentElement.setAttribute("data-theme", theme);
+      window.localStorage.setItem("theme", theme);
+      documentReady(() => {
+        const themeToggle = document.getElementById("theme-toggle");
+        const setThemeToggle = (themeToggle, theme) => {
+          themeToggle.innerHTML = theme === "dark"
+            ? "<i class=\"bi bi-moon\" aria-label=\"{{ __("accessibility.darkTheme") }}\"></i>"
+            : "<i class=\"bi bi-sun\" aria-label=\"{{ __("accessibility.lightTheme") }}\"></i>";
+        };
+        // Update theme toggle content.
+        setThemeToggle(themeToggle, theme);
+        // User changed system settings, update.
+        preferenceQuery.addListener((event) => {
+          theme = event.matches ? "dark" : "light";
+          setThemeToggle(themeToggle, theme);
+          window.requestAnimationFrame(() => {
+            document.documentElement.setAttribute("data-theme", theme);
+          });
+          window.localStorage.setItem("theme", theme);
+        });
+        // Other page of site changed storage, update.
+        window.addEventListener("storage", (event) => {
+          if (event.key === "theme" && event.newValue !== event.oldValue) {
+            theme = event.newValue;
+            setThemeToggle(themeToggle, theme);
+            window.requestAnimationFrame(() => {
+              document.documentElement.setAttribute("data-theme", theme);
+            });
+          }
+        });
+        // User changed website settings, update.
+        themeToggle.addEventListener("click", (event) => {
+          theme = theme === "dark" ? "light" : "dark";
+          setThemeToggle(themeToggle, theme);
+          window.requestAnimationFrame(() => {
+            document.documentElement.setAttribute("data-theme", theme);
+          });
+          window.localStorage.setItem("theme", theme);
+        });
+      });
+    </script>
+    {% block js %}{% endblock %}
+    <script defer type="text/javascript" src="{{ getPath("js/custom.js") }}"></script>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body itemscope itemtype="http://schema.org/WebPage">
+    <a id="top"></a>
+    {% include "includes/header.njk" %}
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            {% block content %}{% endblock %}
+          </div>
+          {#- Sidebar can be `left`, `right` or empty. #}
+          {%- if themeConfig.sidebar %}
+          {% include "includes/sidebar.njk" %}
+          {%- endif %}
+        </div>
+      </div>
+    </main>
+    {% include "includes/footer.njk" %}
+  </body>
+</html>
+<!-- Page built by Hikaru v{{ getVersion() }} at {{ decorated.toISOString() }}. -->

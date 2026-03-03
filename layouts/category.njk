@@ -1,0 +1,33 @@
+{% extends "includes/layout.njk" %}
+
+{% block title %}{{ __(file.title) }} {{ file.category.name }} - {{ siteConfig.title }}{% endblock %}
+
+{% block content %}
+{%- if themeConfig.pinnedMessage %}
+{% include "includes/pinned-message.njk" %}
+{%- endif %}
+<div id="category" class="category page">
+  <div class="page-title">
+    <a class="title-link" href="{{ getPath(file.docPath) }}" itemprop="url">{{ file.category.name }}</a>
+  </div>
+  {%- if file.posts and file.posts.length > 0 %}
+  {%- for post in file.posts %}
+  <article class="article post card{% if themeConfig.animate %} animate{% endif %}" itemscope itemtype="http://schema.org/Article">
+    <header id="post-header" class="post-header">
+      <div class="post-title-simple" itemprop="name headline">
+        <a class="title-link-simple" href="{{ getPath(post.docPath) }}" itemprop="url">{{ post.title }}</a>
+      </div>
+      {%- if post.created %}
+      <span class="post-created">
+        <time title="post-created" itemprop="dateCreated datePublished" datetime="{{ post.created.toISOString() }}">{{ formatDateTime(post.created) }}</time>
+      </span>
+      {%- endif %}
+    </header>
+  </article>
+  {%- endfor %}
+  {%- endif %}
+  {%- if file.pages and file.pages.length > 0 %}
+  {% include "includes/pagination.njk" %}
+  {%- endif %}
+</div>
+{% endblock %}

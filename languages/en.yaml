@@ -1,0 +1,69 @@
+home: Home
+index: Home
+archive: Archive
+archives: Archives
+category: Category
+categories: Categories
+tag: Tag
+tags: Tags
+about: About
+
+search: Search
+toc: Table of Contents
+socialLink: Social Links
+blogroll: Blogroll
+
+# readmore: Read More
+
+ellipsis: …
+code: Code
+
+clipboard:
+  copy: Copy
+  copied: Copied
+
+reward:
+  reward: Reward
+  weChatPay: WechatPay
+  aliPay: AliPay
+  bitCoin: BitCoin
+
+postCount:
+  none: You have no post, write now!
+  one: You have %d post, keep on!
+  more: You have %d posts!
+
+tagCount:
+  none: You have no tag, create now！
+  one: You have %d tag, keep on!
+  more: You have %d tags!
+
+categoryCount:
+  none: You have no category, create now!
+  one: You have %d category, keep on!
+  more: You have %d categories!
+
+searchResult:
+  none: No result found.
+  fail: Failed to get some data, please refresh to search again.
+
+comment:
+  none: This page has no comment, go to comment now!
+  send: Go to Comment
+  read: Read Comments
+  fail: You may reached API rate limit, please wait for some time before refresh.
+  body: "<!-- Please append your comment after this line and submit the issue! Don't modify the issue title because it is used to match article and comment! -->"
+
+poweredBy: Proudly Powered by %s
+theme: Theme is %s
+
+accessibility:
+  prevPage: Previous Page
+  nextPage: Next Page
+  backToTop: Back to Top
+  navToggle: Toggle Navbar
+  lightTheme: Light Theme
+  darkTheme: Dark Theme
+  sitePV: Site Visit Count
+  siteUV: Site User Count
+  pagePV: Page Click Count
